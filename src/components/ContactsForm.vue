@@ -13,10 +13,8 @@
   )
 
   async function saveForm() {
-    alert(`Zapisujesz ${name.value}`)
-    // contactData.value = await response.json()
     try {
-      const response = await axios.post('https://localhost:8001/contactform', {
+      const response = await axios.post('http://localhost:8001/contactform', {
             message: name.value
           });
       console.log(response.data)
@@ -24,21 +22,7 @@
     } catch (error){
       console.log(error)
     }
-    // console.log(response.error)
-    // contactData.value = response.data
   }
-
-  // async sendData() {
-  //   try {
-  //     const response = await axios.post('http://localhost:8000/contact', {
-  //       data: name
-  //     });
-
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 
   function validEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
