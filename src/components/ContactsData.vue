@@ -3,18 +3,16 @@
     <h1>{{ msg }}</h1>
   </div>
   <ContactsForm />
-  <ContactsList />
 </template>
 
 <script>
 import ContactsForm from './ContactsForm.vue'
-// import ContactsList from './ContactsList.vue'
+
 
 export default {
   name: 'ContactsData',
   components: {
     ContactsForm,
-    // ContactsList
   },
   props: {
     msg: String

@@ -6,7 +6,10 @@
   const surname = ref('')
   const email = ref('')
   const contents = ref('')
-  const contactData = ref(null)
+  const _name = ref('')
+  const _surname = ref('')
+  const _email = ref('')
+  const _contents = ref('')
 
   const cantSave = computed(
     () => !name.value || !surname.value || !email.value || !contents.value || !validEmail(email.value)
@@ -15,10 +18,15 @@
   async function saveForm() {
     try {
       const response = await axios.post('http://localhost:8001/contactform', {
-            message: name.value
+            name: name.value,
+            surname: surname.value,
+            email: email.value,
+            contents: contents.value,
           });
-      console.log(response.data)
-      contactData.value = response.data
+      _name.value = response.data.name
+      _surname.value = response.data.surname
+      _email.value = response.data.email
+      _contents.value = response.data.contents
     } catch (error){
       console.log(error)
     }
@@ -28,22 +36,6 @@
     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
-
-  // const requestOptions = {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ name: "Vue 3 POST Request Example" })
-  //     // body: JSON.stringify(
-  //     //   { name: name.value }
-  //     //   { surname: surname.value }
-  //     //   { email: email.value }
-  //     //   { contents: contents.value }
-  //     //   )
-  //   }
-
-  // const response = await fetch('http://localhost:8000/contact', requestOptions)
-  // const data = await response.json()
-  // contactData.value = data
 </script>
 
 <template>
@@ -57,10 +49,18 @@
     <p>Treść: {{ contents }}</p>
     Treść: <input v-model="contents" placeholder="Wiadomość" />
   </div>
+  
   <button :disabled="cantSave" @click="saveForm">Zapisz</button>
-  <div class="savedContact">
-      <div class="savedContact email">New product email: {{contact?.email}}</div>
+  
+  <div v-show="_email && _email">
+    <table>
+        <tr><td>Imię</td><td>{{_name && _name}}</td></tr>
+        <tr><td>Nazwisko</td><td>{{_surname && _surname}}</td></tr>
+        <tr><td>Adres email</td><td>{{_email && _email}}</td></tr>
+        <tr><td>Wiadomość</td><td>{{_contents && _contents}}</td></tr>
+    </table>
   </div>
+
 </template>
 
 <script>
@@ -69,7 +69,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h4 {
   margin: 10 0 0 0;
